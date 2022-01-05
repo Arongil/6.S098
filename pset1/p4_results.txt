@@ -1,0 +1,9 @@
+n = 2 and the exponential constraints: avg time 1.6e-05
+n = 2 and the linear constraints: avg time 1.8e-05
+n = 2 and the built-in constraints: avg time 2.2e-05
+n = 5 and the exponential constraints: avg time 7.4e-05
+n = 5 and the linear constraints: avg time 3.1e-05
+n = 5 and the built-in constraints: avg time 3e-05
+n = 10 and the exponential constraints: avg time 0.004215
+n = 10 and the linear constraints: avg time 4.6e-05
+n = 10 and the built-in constraints: avg time 4.7e-05
