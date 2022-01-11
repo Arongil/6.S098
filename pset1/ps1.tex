@@ -20,8 +20,9 @@
 
 \begin{enumerate}
     \item The idea is to formulate a linear program which encodes the constraints on the price discounting. Then to find $d^\text{max}$ and $d^\text{min}$, we solve $2n$ linear programs of the form \begin{align*}
-        \text{max} [0 \cdots 1 \cdots 0]^T p \\
-        \text{subject to} C^\intercal p = b, \; Dp \geq 0,
+        %& \text{max} [0 \cdots 1 \cdots 0]^\intercal p \\
+        %& \text{subject to} C^\intercal p = b, \; Dp \geq 0,
+            sss
     \end{align*} where $C$ is the bond matrix (rows are bonds, columns are payment schedule) and D is the matrix \[
         D = \begin{pmatrix}
             1 & -1 & 0 & \cdots & 0 & 0 \\
