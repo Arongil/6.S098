@@ -33,19 +33,29 @@ print(f'b) Is DCP? {prob.is_dcp()}')
 
 # c
 
+x = cp.Variable()
+y = cp.Variable()
+constraints = [
+    y >= 0,
+    cp.quad_over_lin(x + y, cp.sqrt(y)) <= x - y + 5
+]
+objective = cp.Minimize(0)
+prob = cp.Problem(objective, constraints)
+print(f'c) Is DCP? {prob.is_dcp()}')
 
 # d
 
 x = cp.Variable()
 y = cp.Variable()
 z = cp.Variable()
-u = cp.Variable()
 constraints = [
     x >= 0,
     y >= 0,
-    cp.square(y) <= cp.quad_over_lin(x, u),
-    x + z <= 1 + cp.sqrt(u - cp.square(z))
+    x + z <= 1 + cp.geo_mean(cp.hstack([
+        cp.geo_mean(cp.hstack([x, y])) + z,
+        cp.geo_mean(cp.hstack([x, y])) - z
+    ]))
 ]
 objective = cp.Minimize(0)
 prob = cp.Problem(objective, constraints)
-prob.solve()
+print(f'd) Is DCP? {prob.is_dcp()}')
