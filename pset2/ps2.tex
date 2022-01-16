@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathdots}
+\usepackage[pdftex]{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{multicol}
+\usepackage{bbm}
+\usepackage{esint}
+\usepackage{listings}
+\PassOptionsToPackage{usenames,dvipsnames}{color}  %% Allow color names
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage{inconsolata}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage[thinlines]{easytable}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{tabu}
+\usepackage{tabularx}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{tabto}
+
+\renewcommand{\P}{\mathbb{P}}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\E}{\mathbb{E}}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{Problem Set 2}
+\author{Laker Newhouse\\Collaborators: Evelyn Fu}
+\date{\today}
+
+\begin{document}
+\maketitle	
+
+All code and raw results are available at \url{https://github.com/Arongil/6.S098/tree/main/pset2}.
+\begin{enumerate}
+    \item (Linear programming with random cost vector) We are minimizing $c^T x$ subject to $Ax \preceq b$, where $c$ is a random vector which is normally distributed with mean $\E c = c_0$ and $\E(c - c_0)(c - c_0)^T = \Sigma$. \begin{enumerate}
+        \item To minimize the expected cost $\E c^T x$, we can equivalently minimize $c_0^T$ because \[
+            \E c^T x = E \left( \sum c_i x_i \right) = \sum \E(c_i x_i) = \sum \E(c_i) x_i = c_0^T x.    
+        \]
+        \item To minimize the risk-sensitive cost $\E c^T x + \gamma \mathbf{var}(c^T x)$, we can equivalently minimize \[
+            c_0^T x + \gamma x^T \Sigma x
+        \] because $x^T \Sigma x$ is a quadratic form which allocates the proper weights to pairs of entries in $x$ based on the covariance matrix $\Sigma$. Certainly $c_0^T x$ is convex, but $x^T \Sigma x$ is convex if and only if $\Sigma$ is positive semidefinite. We know however that all covariance matrices are positive semidefinite. Therefore the problem is always convex given $\gamma \geq 0$.
+        \item If $\gamma < 0$, then the problem is convex if and only if $\Sigma$ is negative semidefinite.
+        \item If we change the problem to that of minimizing $\beta$ subject to $\P(c^T x \geq \beta) \leq \alpha)$ and $Ax \preceq b$, then the problem is convex 
+    \end{enumerate}
+
+    \item problem 2
+
+    \item problem 3
+
+    \item problem 4
+\end{enumerate}
+
+\end{document}
