@@ -156,6 +156,11 @@ All code and raw results are available at \url{https://github.com/Arongil/6.S098
         \end{align*}
     \item We solve the robust linear program as described. The worst case cost $f(x)$ for $x$ optimal in the robust LP is $3.17$. The nominal cost for $x$ optimal in the robust LP is $2.52$. The cost for the nominal problem (i.e. when $\mathcal{C} = \{c_\text{nom}\}$) is $2.11$. The robust optimum is worse than the nominal optimum as expected, because the robust scenario must contend with a variety of possible values for $c$ whatever it picks for $x$. When choosing $x$ optimal for the nominal problem, we see further improvement as one would expect, seeing as now $x$ can be selected without worrying about robustness at all. The robust solution is a tradeoff: worse expected outcomes, but with a guarantee that the worst won't be too bad. 
     \end{enumerate}
+
+    \item I have two final project ideas. Each has a potential problem, so I've emailed Alexander Amice for input. More input would be great if you have it! \begin{enumerate}
+        \item Implement the branch and bound algorithm for integer programming. The algorithm uses linear programs as a subroutine. Would you count this as sufficient for a final project? More importantly, do you think it would be a good learning experience to implement this algorithm compared to a problem with some kind of real world data?
+        \item Currency arbitrage. I was initially very interested in this option, but I looked into various APIs for getting real time currency exchange rates and all have a paywall for more than, say, 100 requests per day. This isn't enough to support real time arbitrage. I need n exchange rate calls to build the matrix for a single arbitrage of n currencies, so I'm stuck here on how to get data if I want to move forward with this project idea.
+    \end{enumerate} Remaining questions on my end: is (1) or (2) is a better option? Are there other ways to gather data on exchange rates?
 \end{enumerate}
 
 \end{document}
