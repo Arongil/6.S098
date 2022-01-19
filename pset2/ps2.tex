@@ -137,7 +137,25 @@ All code and raw results are available at \url{https://github.com/Arongil/6.S098
             \]
     \end{enumerate}
 
-    \item problem 4
+    \item (Robust linear program with polyhedral cost uncertainty) Consider the problem \begin{align*}
+        &\text{minimize } \sup_{c \in \mathcal{C}} c^T x \\
+        &\text{subject to } Ax \succeq b,
+    \end{align*} with variable $x \in \R^n$, where $\mathcal{C} = \{c \mid Fc \preceq g\}$. Assume $\mathcal{C} \neq \emptyset$ and that $Ax \succeq b$ is feasible.
+    \begin{enumerate}
+        \item The function $f(x) = \sup_{c \in \mathcal{C}} c^T x$ is convex because its epigraph is convex. And its epigraph is convex because the epigraph of a supremum is the intersection of the epigraphs of all the functions over which the supremum is taken. But each $c^T x$ is convex and thus has convex epigraph, and the intersection of convex functions is convex. Therefore the supremum that defines $f(x)$ is convex.
+        \item The dual of the problem \begin{align*}
+            &\text{maximize } c^T x \\
+            &\text{subject to } Fc \preceq g,
+        \end{align*} with variable $c$, is \begin{align*}
+            &\text{minimize } g^T y \\
+            &\text{subject to } F^T y \geq x, \; y \geq 0.
+        \end{align*} The optimal value of the dual problem is the same as the optimal value of the primal, $f(x)$, as a result of strong duality. This linear program exhibits strong duality because the primal is feasible.
+    \item We formulate a single linear program equivalent to the original robust linear program by combining the answer to (b) with the constraint $Ax \succeq b$: \begin{align*}
+            &\text{minimize } g^T y \\
+            &\text{subject to } F^T y \geq x, \; y \geq 0, Ax \succeq b.
+        \end{align*}
+    \item We solve the robust linear program as described. The worst case cost $f(x)$ for $x$ optimal in the robust LP is $3.17$. The nominal cost for $x$ optimal in the robust LP is $2.52$. The cost for the nominal problem (i.e. when $\mathcal{C} = \{c_\text{nom}\}$) is $2.11$. The robust optimum is worse than the nominal optimum as expected, because the robust scenario must contend with a variety of possible values for $c$ whatever it picks for $x$. When choosing $x$ optimal for the nominal problem, we see further improvement as one would expect, seeing as now $x$ can be selected without worrying about robustness at all. The robust solution is a tradeoff: worse expected outcomes, but with a guarantee that the worst won't be too bad. 
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}

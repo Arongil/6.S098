@@ -1,17 +1,15 @@
 import numpy as np
 import cvxpy as cp
 
-n = 5 # participants
+n = 3 # participants
 m = 5 # outcomes
 
-p = np.array([0.5, 0.6, 0.6, 0.6, 0.2])
-q = np.array([10, 5, 5, 20, 10])
+p = np.array([0.99, 0.58, 0.91])
+q = np.array([50, 10, 20])
 S = np.array([
-    [1, 1, 0, 0, 0], # {1, 2}
-    [0, 0, 0, 1, 0], # {4}
-    [1, 0, 0, 1, 1], # {1, 4, 5}
-    [0, 1, 0, 0, 1], # {2, 5}
-    [0, 0, 1, 0, 0]  # {3}
+    [1, 1, 0, 0, 1], # {1, 2}
+    [0, 1, 1, 1, 0], # {4}
+    [1, 0, 0, 1, 0], # {4}
 ]).T
 
 # c  = [p1 p2 ... pn -1]
@@ -90,7 +88,7 @@ print(f'Expected profit = {expected_profit}')
 print()
 print(f'Fair prices are {S.T @ pi}')
 
-x_star = cp.Variable(m)
+x_star = cp.Variable(n)
 objective = cp.Maximize(x_star.T @ (p - S.T @ pi))
 constraints = [ x_star >= 0, x_star <= q]
 expected_value_prob = cp.Problem(objective, constraints)

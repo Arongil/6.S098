@@ -1,0 +1,26 @@
+Worst case cost f(x) for robust optimal: 3.165961052126229
+Nominal cost for robust optimal: [[2.52320886]]
+The robust optimal x is
+[[ 0.10226062]
+ [ 0.10226062]
+ [ 0.48813484]
+ [ 0.38758877]
+ [ 0.10226062]
+ [ 0.33331083]
+ [ 0.10226062]
+ [ 0.10226062]
+ [ 0.12340546]
+ [-0.16020985]]
+Worst case cost f(x) for nominal optimal: 2.1092714620826003
+Nominal cost for nominal optimal: [[2.10927146]]
+The nominal optimal x is
+[[-1.84784822]
+ [ 1.98599739]
+ [-1.02036781]
+ [ 0.64483889]
+ [-0.78353585]
+ [-0.58263546]
+ [ 0.51293723]
+ [ 3.18932783]
+ [ 2.10572291]
+ [-1.38286869]]
