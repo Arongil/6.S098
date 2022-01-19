@@ -106,7 +106,7 @@ All code and raw results are available at \url{https://github.com/Arongil/6.S098
             x' &= \begin{bmatrix}
                 x_1 & x_2 & \cdots & x_n & t
             \end{bmatrix}^T.
-        \end{align*} Now the objective becomes to minimize $c^T x'$. We collapse the constraints into a single matrix multiplication by defining the $(m + n) \times (n + 1)$ matrix \[
+        \end{align*} Now the objective becomes to maximize $c^T x'$. We collapse the constraints into a single matrix multiplication by defining the $(m + n) \times (n + 1)$ matrix \[
             A = \begin{bmatrix}
                 I_n & 0 \\
                 S & -1
@@ -119,7 +119,20 @@ All code and raw results are available at \url{https://github.com/Arongil/6.S098
             Ax' \leq b,
         \] along with $x' \geq 0$. The first $n$ rows of the inequality account for the constraints $x_i \leq q_i$, while the final $m$ rows account for the constraints \[
             t \geq \sum_{i : j \in S_i} x_i,
-        \] running over each possible $j$, and ensuring that $t$ is greater than the maximum possible amount the house would need to pay out. Now an optimal $x^\ast$ for this linear program is one which minimizes worst case house profits, as desired.
+        \] running over each possible $j$, and ensuring that $t$ is greater than the maximum possible amount the house would need to pay out. Now an optimal $x^\ast$ for this linear program is one which minimizes worst case house profits, as desired. \\
+
+            Suppose $x^\ast$ maximizes the worst case house profit. There must exist a probability distribution $\pi$ over the $m$ outcomes for which $x^\ast$ also maximizes the expeted house profit. For example, we could choose $\pi$ to be all zero except for a one in the column representing the worst case option. However, there is a more systematic way to find $\pi$. In a way, maximizing expected profit instead of worst case profit is like switching the order of the min and max in the original expression \[
+                \max_x \min_\pi \text{profit}.
+            \] The original expression represents finding the maximal worst case profit. Switching the order means finding the probabilities which maximize expected profit, given we know $x^\ast$. This suggests solving the dual problem for insight. The dual problem is \begin{align*}
+                &\text{minimize } b^T y \\
+                &\text{subject to } A^T y \geq c, \; y \geq 0.
+            \end{align*} We claim the final $m$ entries of $y$ will be our desired probability distribution $\pi$, maximizing expected profit given $x^\ast$. The last row of $A^T y \geq c$ yields the constraint $\mathbbm{1}^T \pi \leq 1$. Why $\mathbbm{1}^T \pi \geq 1$ for $\pi$ as the final $m$ entries of $y$ is not clear to me, except that it works in all the nondegenerate examples I've tried. Similarly, I do not understand why the expected profit \[
+                x^{\ast T} (p - S^T \pi)
+            \] from $\pi$ given $x^\ast$ is equal to the maximal worst case profit, but again I have confirmed it experimentally. For the example given, the optimal worst case house profit is \$3.50. Here, we would use \[
+                x^\ast = (5, 5, 5, 5, 10).
+            \] If all offers were accepted, the worst case profit would be $-\$5.00$ in the case of outcome $2$. The imputed probabilities come from solving the dual problem. We find \[
+                \pi = (0.09, 0.41, 0.12, 0.19, 0.19).
+            \] The expected profit given $\pi$ and $x^\ast$ is indeed \$3.50, the same as the optimal worst case profit.
     \end{enumerate}
 
     \item problem 4
