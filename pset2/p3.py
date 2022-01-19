@@ -87,3 +87,13 @@ print(f'pi = {pi}')
 x_without_t = x.value[:-1]
 expected_profit = x_without_t.T @ (p - S.T @ pi)
 print(f'Expected profit = {expected_profit}')
+print()
+print(f'Fair prices are {S.T @ pi}')
+
+x_star = cp.Variable(m)
+objective = cp.Maximize(x_star.T @ (p - S.T @ pi))
+constraints = [ x_star >= 0, x_star <= q]
+expected_value_prob = cp.Problem(objective, constraints)
+expected_value_prob.solve()
+print()
+print(f'Given pi, the optimal expected value is {x_star.value.T @ (p - S.T @ pi)} with:\nx = {x_star.value}')
