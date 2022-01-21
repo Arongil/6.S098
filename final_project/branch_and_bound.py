@@ -56,14 +56,24 @@ def branch_and_bound(c, A, b):
 def is_int(x, tolerance=1e-8):
     return abs(x - int(x)) < tolerance
 
+def most_infeasible(x):
+    # find the fractional entry in x closest to 0.5
+    index = np.argmin(np.abs(x - np.floor(x) - 0.5))
+    if is_int(x[index]): # all integer
+        return None
+    return index
+
 def get_additional_constraints(x):
-    non_integer = []
-    for index, value in enumerate(x):
-        if not is_int(value):
-            non_integer.append((index, np.floor(value))) # x_index <= floor(value)
-            non_integer.append((index, -np.ceil(value))) # x_index >= ceil(value)
-            break
-    return non_integer
+    # Apply "most infeasible branching" heuristic.
+    # We choose the variable with fractional part closest to 0.5
+    index = most_infeasible(x)
+    value = x[index]
+    if index is None:
+        return []
+    # The constraints stand for:
+    #   1) x_index <= floor(value)
+    #   2) x_index >= ceil(value)
+    return [(index, np.floor(value)), (index, -np.ceil(value))]
 
 def solve_relaxed_LP(c, A, b, additional_constraints):
     x = cp.Variable(c.size)
@@ -102,11 +112,11 @@ print(c.T @ best_int_solution)
 
 # knapsack problem (constraint to take only one of each item max)
 # items: apple, banana, Raisin Bran, Fiber One, chicken, beef, milk, wine
-budget = 40
+budget = 80
 value = np.array([3,   9, 5, 6, 8, 2, 10,  1]) # how we value the items
 costs = np.array([1, 0.5, 5, 5, 9, 12, 5, 30])
 A = np.vstack((costs, np.identity(8)))
-b = np.hstack((budget, 5*np.ones(8)))
+b = np.hstack((budget, 9*np.ones(8)))
 
 start = time.time()
 best_int_solution = branch_and_bound(value, A, b)
