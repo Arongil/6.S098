@@ -78,7 +78,7 @@ plt.plot(r, xtrue, label = 'ground truth')
 plt.plot(r, x.value, label = 'estimate')
 
 plt.xlabel('t')
-plt.title('Nondecreasing Minimum Likelihood Approximation')
+plt.title('Nondecreasing Maximum Likelihood Approximation')
 plt.legend()
 
 plt.savefig('p1_plot_nondecreasing.png')
@@ -88,6 +88,6 @@ plt.plot(r, xtrue, label = 'ground truth')
 plt.plot(r, x_free.value, label = 'estimate')
 
 plt.xlabel('t')
-plt.title('Free Minimum Likelihood Approximation')
+plt.title('Free Maximum Likelihood Approximation')
 plt.legend()
 plt.savefig('p1_plot_free.png')
