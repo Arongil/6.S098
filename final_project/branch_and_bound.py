@@ -26,17 +26,25 @@ import time
 
 # Input:  n by 1 vector c, k by n matrix A, k by 1 vector b
 # Output: n by 1 vector x with integer components which maximizes c^T x
-def branch_and_bound(c, A, b):
+def branch_and_bound(c, A, b, target = 1e-8):
     # Example element in the queue:
     #   [ (3, 4), (5, -2) ]
     # It means x_3 <= 4, x_5 >= 2 are additional constraints for this child.
     q = queue.LifoQueue()
-    l = -1 # lower bound for integer solutions
+    l = -1e8 # lower bound for integer solutions
     int_best = np.zeros(c.size) # current best integer solution
 
     q.put([]) # initialize with the fully relaxed LP
 
+    # assume we can do better than half the fully relaxed optimum
+    x, value = solve_relaxed_LP(c, A, b, [])
+    if value is None:
+        print('Infeasible!')
+        return
+
+    lp_count = 0
     while not q.empty():
+        lp_count += 1
         node = q.get()
         x, value = solve_relaxed_LP(c, A, b, node)
         if x is None or value <= l: # infeasible or relaxed optimum worse than l
@@ -46,6 +54,10 @@ def branch_and_bound(c, A, b):
         if len(children) == 0: # all entries are integer!
             l = value
             int_best = x
+            print(f'New best {round(l, 2)} found! {q.qsize()} children remain. {lp_count} LPs solved so far.')
+            if l >= target: # we have found a satisfactory solution
+                print("Yay! Hit target.")
+                break
         else:
             # combine old constraints with the two new ones
             q.put(node + [children[0]])
@@ -94,6 +106,7 @@ def solve_relaxed_LP(c, A, b, additional_constraints):
     return x.value, l
 
 '''
+# Toy example for testing
 c = np.array([5, 8])
 A = np.array([
     [1, 1],
@@ -109,17 +122,3 @@ best_int_solution = branch_and_bound(c, A, b)
 print(best_int_solution)
 print(c.T @ best_int_solution)
 '''
-
-# knapsack problem (constraint to take only one of each item max)
-# items: apple, banana, Raisin Bran, Fiber One, chicken, beef, milk, wine
-budget = 80
-value = np.array([3,   9, 5, 6, 8, 2, 10,  1]) # how we value the items
-costs = np.array([1, 0.5, 5, 5, 9, 12, 5, 30])
-A = np.vstack((costs, np.identity(8)))
-b = np.hstack((budget, 9*np.ones(8)))
-
-start = time.time()
-best_int_solution = branch_and_bound(value, A, b)
-end = time.time()
-
-print(f'The best solution is to buy {best_int_solution}.\nThe cost is ${costs.T @ best_int_solution}.\nRuntime is {round(end - start, 3)} seconds.')
